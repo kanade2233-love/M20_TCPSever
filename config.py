@@ -6,7 +6,7 @@
 
 # 服务器配置
 SERVER_CONFIG = {
-    'host': '0.0.0.0',  # 监听所有网络接口
+    'host': '10.21.31.104',  # 监听所有网络接口
     'port': 8888,       # 监听端口
     'max_connections': 5,  # 最大连接数
     'timeout': 30,      # 连接超时时间(秒)
@@ -60,7 +60,7 @@ COMMAND_CODES = {
     'STOP': 9,              # 停止
     'SET_ALARM_LIGHT': 10,  # 设置警灯
     'QUERY_STATUS': 11,     # 查询状态
-    
+    'CIRCLE_MUSIC': 12,     # 循环播放音乐
     # 辐射传感器命令
     'GET_DOSE_RATE': 1,     # 获取剂量率
     'START_STREAM': 2,      # 开始1Hz推送
@@ -69,9 +69,9 @@ COMMAND_CODES = {
 
 # 辐射传感器配置
 RADIATION_SENSOR_CONFIG = {
-    'modbus_address': 2,    # Modbus设备地址
+    'modbus_address': 2,    # Modbus设备地址（实际改成2）
     'register_address': 0x0001,  # 寄存器地址
-    'register_count': 2,    # 读取寄存器数量
+    'register_count': 2,    # 读取寄存器数量（2个寄存器=4字节数据）
     'stream_interval': 1.0, # 推送间隔（秒）- 1Hz
 }
 

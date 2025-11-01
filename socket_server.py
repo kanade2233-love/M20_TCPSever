@@ -226,52 +226,58 @@ class DeviceController:
             if command == COMMAND_CODES['PLAY_MUSIC']:  # 播放指定音乐
                 folder = items.get('folder', 1)
                 file_num = items.get('file', 1)
-                cmd_hex = f"FF 06 {folder:02X} 03 00 {file_num:02X}"
+                cmd_hex = f"01 06 {folder:02X} 0F 01 {file_num:02X}"
                 result = self.modbus_comm.send_modbus_rtu(cmd_hex)
-                message = f"播放音乐: 文件夹{folder}, 文件{file_num}"
+                message = f"播放音乐: 文件夹01, 文件{file_num}"
                 
+            elif command == COMMAND_CODES['CIRCLE_MUSIC']:  # 循环
+                file_num = items.get('file', 1)
+                cmd_hex = f"01 06 00 10 01 {file_num:02X}"
+                result = self.modbus_comm.send_modbus_rtu(cmd_hex)
+                message = f"循环播放音乐: 文件夹01, 文件{file_num}"
+
             elif command == COMMAND_CODES['PREV_TRACK']:  # 上一曲
-                cmd_hex = "FF 06 00 02 00 00"
+                cmd_hex = "01 06 00 02 00 00"
                 result = self.modbus_comm.send_modbus_rtu(cmd_hex)
                 message = "上一曲"
                 
             elif command == COMMAND_CODES['NEXT_TRACK']:  # 下一曲
-                cmd_hex = "FF 06 00 01 00 00"
+                cmd_hex = "01 06 00 01 00 00"
                 result = self.modbus_comm.send_modbus_rtu(cmd_hex)
                 message = "下一曲"
                 
             elif command == COMMAND_CODES['VOLUME_UP']:  # 音量+
-                cmd_hex = "FF 06 00 04 00 00"
+                cmd_hex = "01 06 00 04 00 00"
                 result = self.modbus_comm.send_modbus_rtu(cmd_hex)
                 message = "音量+"
                 
             elif command == COMMAND_CODES['VOLUME_DOWN']:  # 音量-
-                cmd_hex = "FF 06 00 05 00 00"
+                cmd_hex = "01 06 00 05 00 00"
                 result = self.modbus_comm.send_modbus_rtu(cmd_hex)
                 message = "音量-"
                 
             elif command == COMMAND_CODES['SET_VOLUME']:  # 设置音量
                 vol = items.get('volume', 30)
                 vol_hex = f"{vol:02X}"
-                cmd_hex = f"FF 06 00 06 00 {vol_hex}"
+                cmd_hex = f"01 06 00 06 00 {vol_hex}"
                 result = self.modbus_comm.send_modbus_rtu(cmd_hex)
                 self.current_volume = vol
                 message = f"设置音量为: {vol}"
                 
             elif command == COMMAND_CODES['PAUSE']:  # 暂停
-                cmd_hex = "FF 06 00 0E 00 00"
+                cmd_hex = "01 06 00 0E 00 00"
                 result = self.modbus_comm.send_modbus_rtu(cmd_hex)
                 self.is_playing = False
                 message = "暂停播放"
                 
             elif command == COMMAND_CODES['RESUME']:  # 继续播放
-                cmd_hex = "FF 06 00 0D 00 00"
+                cmd_hex = "01 06 00 0D 00 00"
                 result = self.modbus_comm.send_modbus_rtu(cmd_hex)
                 self.is_playing = True
                 message = "继续播放"
                 
             elif command == COMMAND_CODES['STOP']:  # 停止
-                cmd_hex = "FF 06 00 16 00 01"
+                cmd_hex = "01 06 00 19 00 01"
                 result = self.modbus_comm.send_modbus_rtu(cmd_hex)
                 self.is_playing = False
                 message = "停止播放"
@@ -280,7 +286,7 @@ class DeviceController:
                 color = items.get('color', 1)
                 freq = items.get('freq', 1)
                 xy_val = f"{color}{freq}"
-                cmd_hex = f"FF 06 00 C2 00 {xy_val}"
+                cmd_hex = f"01 06 00 C2 00 {xy_val}"
                 result = self.modbus_comm.send_modbus_rtu(cmd_hex)
                 message = f"设置警灯: 颜色{color}, 频率{freq}"
                 
